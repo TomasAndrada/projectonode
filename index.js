@@ -1,17 +1,16 @@
-
-function callFakeStoreAPI(method, type, title, price, category) {
+function callFakeStoreAPI(method, type, ...args) {
     const url = `https://fakestoreapi.com/${type}`;
-    switch (method){
+    switch (method) {
         case 'GET':
             fetch(url)
                 .then(response => response.json())
                 .then(data => console.log(data));
             break;
         case 'POST':
-            const product = { title: title, price: price, category: category};
+            const product = {title: args[0], price: args[1], category: args[2]};
             fetch('https://fakestoreapi.com/products', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(product)
             })
                 .then(response => response.json())
@@ -24,9 +23,10 @@ function callFakeStoreAPI(method, type, title, price, category) {
                 .then(response => response.json())
                 .then(data => console.log(data));
             break;
-            default:
-                console.log('Invalid method');
+        default:
+            console.log('Invalid method');
     }
 }
 
-callFakeStoreAPI(process.argv[2], process.argv[3]);
+const [_node, _file, method, type, ...args] = process.argv;
+callFakeStoreAPI(method, type, ...args);
