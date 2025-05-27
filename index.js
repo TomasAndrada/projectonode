@@ -23,7 +23,9 @@ async function callFakeStoreAPI(method, service, ...args) {
         }
         if (!response.ok) {
             console.log('Error en fetch');
+            return
         }
+        console.log(response.ok);
         const data = await response.json();
         console.log(data);
     } catch (error) {
